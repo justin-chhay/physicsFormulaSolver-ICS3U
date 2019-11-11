@@ -5,25 +5,30 @@
     Description: Program solves for a specified variable in the Acceleration Formula in Physics.
 
     PLEASE READ BEFORE RUNNING:
+    
+	I had to import java.lang.* in order to parse the double variables into floats.
+	    This is so that if we get a number with a long decimal value, it will only
+	    display the answer, up to 6-7 decimal places (because it is now parsed into a float)
 
 	PauseProgram Method will always run at the start of intro, askData, and display methods.
 	    Pausing, and then resuming will just call the previous method, asking if you want to
-	    pause again. At this point you can just enter ANY OTHER key to continue on with the program.
+	    pause again. At this point you can just click ANYTHING OTHER THAN YES to continue on with the program.
 
-	Because the rubric stated that ALL inputs must be error-trapped, I had to include a lot of            try catch loops to meet the expectations of the assignment on the rubric. Input Errors
-	    could be: Wrong Data Type or Cancelling/Clicking the 'X' button on the JOptionPane MessageDialog Box!
+	Because the rubric stated that ALL inputs must be error-trapped, I had to include a lot of
+	    try catch loops to meet the expectations of the assignment on the rubric. Input Errors
+	    could be: Wrong Data Type
 
 	My format for MOST comments will be:
 	    //TypeOfCode - Explanation
 	For example...
 	    //Comment - This comment explains my formatting for comments
-
 */
 
 // The "JustinChhay_PhysicsFormulaSolver" class.
 import java.awt.*;
 import hsa.Console;
 import javax.swing.*; //Allows for JOptionPane usage
+import java.lang.*; // For Parsing
 
 public class JustinChhay_PhysicsFormulaSolver
 {
@@ -46,7 +51,7 @@ public class JustinChhay_PhysicsFormulaSolver
     Font text = new Font ("MonoSpaced", Font.BOLD, 20);    //Font - Variable for general text
 
 
-
+    
     //Title Method - Draws Program Title to Graphics Window
     public void title ()
     {
@@ -386,6 +391,9 @@ public class JustinChhay_PhysicsFormulaSolver
 	    {
 		//Formula for Acceleration
 		a = (vF - vI) / t;
+		
+		//Parsing
+		float a1 = (float)a;
 
 		//General Text - Outputs given values from user input
 		c.drawString ("With these values:", 40, 140);
@@ -399,12 +407,15 @@ public class JustinChhay_PhysicsFormulaSolver
 		c.drawString ("" + t, 375, 330);
 
 		//Conclusion
-		c.drawString ("Therefore, Acceleration must be " + a + " m/s^2.", 50, 420);
+		c.drawString ("Therefore, Acceleration must be " + a1 + " m/s^2.", 50, 420);
 	    }
 	    else if (option.equals ("2")) //Finds Final Velocity
 	    {
 		//Formula for Final Velocity
 		vF = t * a + vI;
+		
+		//Parsing
+		float vF1 = (float)vF;
 
 		//General Text - Outputs given values from user input
 		c.drawString ("With these values:", 40, 140);
@@ -416,12 +427,17 @@ public class JustinChhay_PhysicsFormulaSolver
 		c.drawString ("Final Velocity = " + t + " * " + a + " + " + vI, 150, 300);
 
 		//Conclusion
-		c.drawString ("Therefore, Final Velocity must be " + vF + " m/s.", 50, 420);
+		c.drawString ("Therefore, Final Velocity must be " + vF1 + " m/s.", 50, 420);
 	    }
 	    else if (option.equals ("3")) //Finds Initial Velocity
 	    {
 		//Formula for Initial Velocity
 		vI = vF - t * a;
+		
+		//Parsing
+		float vI1 = (float)vI;
+		
+		//General Text - Outputs given values from user input
 		c.drawString ("With these values:", 40, 140);
 		c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
 		c.drawString ("Time: " + t + " s", 50, 210);
@@ -431,12 +447,17 @@ public class JustinChhay_PhysicsFormulaSolver
 		c.drawString ("Initial Velocity = " + vF + " - " + t + " * " + a, 80, 300);
 
 		//Conclusion
-		c.drawString ("Therefore, Initial Velocity must be " + vI + " m/s^2.", 50, 420);
+		c.drawString ("Therefore, Initial Velocity must be " + vI1 + " m/s^2.", 50, 420);
 	    }
 	    else if (option.equals ("4")) //Finds Time
 	    {
 		//Formula for Time
 		t = (vF - vI) / a;
+		
+		//Parsing
+		float t1 = (float)t;
+		
+		//General Text - Outputs given values from user input
 		c.drawString ("With these values:", 40, 140);
 		c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
 		c.drawString ("Initial Velocity: " + vI + " m/s", 50, 210);
@@ -448,7 +469,7 @@ public class JustinChhay_PhysicsFormulaSolver
 		c.drawString ("" + a, 215, 330);
 
 		//Conclusion
-		c.drawString ("Therefore, Time must be " + t + " s.", 50, 420);
+		c.drawString ("Therefore, Time must be " + t1 + " s.", 50, 420);
 	    }
 	}
 
