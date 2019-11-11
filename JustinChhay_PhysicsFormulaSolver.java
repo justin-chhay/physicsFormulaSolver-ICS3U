@@ -10,8 +10,7 @@
 	    Pausing, and then resuming will just call the previous method, asking if you want to
 	    pause again. At this point you can just enter ANY OTHER key to continue on with the program.
 
-	Because the rubric stated that ALL inputs must be error-trapped, I had to include a lot of
-	    try catch loops to meet the expectations of the assignment on the rubric. Input Errors
+	Because the rubric stated that ALL inputs must be error-trapped, I had to include a lot of            try catch loops to meet the expectations of the assignment on the rubric. Input Errors
 	    could be: Wrong Data Type or Cancelling/Clicking the 'X' button on the JOptionPane MessageDialog Box!
 
 	My format for MOST comments will be:
@@ -92,34 +91,35 @@ public class JustinChhay_PhysicsFormulaSolver
 	c.setFont (text);
 	c.drawString ("Would you like to PAUSE?", 180, 280);
 
-	//Try Catch Loop - ErrorTrap for Pause Input
-	try
+
+	//JOptionPane - Asks if user wants to pause program
+	int pause = JOptionPane.showConfirmDialog (null, "Would you like to PAUSE the program?");
+
+	//If Structure - Will run pauseProgram(); or continue with intro(); depending on previous user input
+	if (pause == JOptionPane.OK_OPTION)
 	{
-	    //JOptionPane - Asks if user wants to pause program
-	    String pause = JOptionPane.showInputDialog (null, "Would you like to PAUSE the program?\n  Enter  y  to PAUSE.\n  Enter ANY OTHER key to CONTINUE.");
+	    pIntro = true;  //Ensures that user returns back to intro method
+	    pauseProgram ();
+	}
+	else if (pause == JOptionPane.NO_OPTION || pause == JOptionPane.CANCEL_OPTION || pause == JOptionPane.CLOSED_OPTION)
+	{
+	    //Erase - Needed to erase pause statement (can only use clear(); in title)
+	    c.setColor (background);
+	    c.drawString ("Would you like to PAUSE?", 180, 280);
 
-	    //If Structure - Will run pauseProgram(); or continue with intro(); depending on previous user input
-	    if (pause.equals ("y") || pause.equals ("Y"))
+	    //Text - Program Options
+	    c.setFont (text);
+	    c.setColor (Color.white);
+	    c.drawString ("A = (Vf - Vi) / T", 220, 150);
+	    c.drawString ("Choose: 1) Solve for Acceleration", 50, 200);
+	    c.drawString ("2) Solve for Final Velocity", 146, 250);
+	    c.drawString ("3) Solve for Initial Velocity", 146, 300);
+	    c.drawString ("4) Solve for Time", 146, 350);
+	    c.drawString ("Press ANY other key to EXIT ", 146, 400);
+
+	    //Try Catch Loop - ErrorTrap FOR OPTION
+	    try
 	    {
-		pIntro = true;  //Ensures that user returns back to intro method
-		pauseProgram ();
-	    }
-	    else
-	    {
-		//Erase - Needed to erase pause statement (can only use clear(); in title)
-		c.setColor (background);
-		c.drawString ("Would you like to PAUSE?", 180, 280);
-
-		//Text - Program Options
-		c.setFont (text);
-		c.setColor (Color.white);
-		c.drawString ("A = (Vf - Vi) / T", 220, 150);
-		c.drawString ("Choose: 1) Solve for Acceleration", 50, 200);
-		c.drawString ("2) Solve for Final Velocity", 146, 250);
-		c.drawString ("3) Solve for Initial Velocity", 146, 300);
-		c.drawString ("4) Solve for Time", 146, 350);
-		c.drawString ("Press ANY other key to EXIT ", 146, 400);
-
 		//JOptionPane - Asks for user input on which variable to solve for, OR to call goodbye();
 		option = JOptionPane.showInputDialog (null, "CHOOSE OPTION:\n  1 for solving the Acceleration\n  2 for solving the Final Velocity\n  3 for solving the Initial Velocity\n  4 for solving the Time\nEnter ANY OTHER key to EXIT...");
 		if (option.equals ("1") || option.equals ("2") || option.equals ("3") || option.equals ("4"))
@@ -131,13 +131,14 @@ public class JustinChhay_PhysicsFormulaSolver
 		    goodbye ();
 		}
 	    }
+	    catch (Exception e)
+	    {
+		//Error Trap - If user closes or cancels input, will call intro method again
+		JOptionPane.showMessageDialog (null, "Invalid Input!");
+		intro ();
+	    }
 	}
-	catch (Exception e)
-	{
-	    //Error Trap - If user closes or cancels input, will call intro method again
-	    JOptionPane.showMessageDialog (null, "Invalid Input");
-	    intro ();
-	}
+
     }
 
 
@@ -156,201 +157,192 @@ public class JustinChhay_PhysicsFormulaSolver
 	c.setFont (text);
 	c.drawString ("Would you like to PAUSE?", 180, 280);
 
-	//Try Catch Loop - ErrorTrap for Pause Input
-	try
+	//JOptionPane - Asks if user wants to pause program
+	int pause = JOptionPane.showConfirmDialog (null, "Would you like to PAUSE the program?");
+
+	//If Structure - Will run pauseProgram(); or continue with askData(); depending on previous user input
+	if (pause == JOptionPane.OK_OPTION)
 	{
-	    //JOptionPane - Asks if user wants to pause program
-	    String pause = JOptionPane.showInputDialog (null, "Would you like to PAUSE the program?\n  Enter  y  to PAUSE.\n  Enter ANY OTHER key to CONTINUE.");
+	    pAskData = true;  //Ensures that user returns back to askData method
+	    pauseProgram ();
+	}
+	else if (pause == JOptionPane.NO_OPTION || pause == JOptionPane.CANCEL_OPTION || pause == JOptionPane.CLOSED_OPTION)
+	{
+	    //Needed to erase pause statement (can only use clear(); in title)
+	    c.setColor (background);
+	    c.drawString ("Would you like to PAUSE?", 180, 280);
+	    c.setColor (Color.white);
 
-	    //If Structure - Will run pauseProgram(); or continue with askData(); depending on previous user input
-	    if (pause.equals ("y") || pause.equals ("Y"))
+	    //If Structure - Depending on user input for String var option, program will execute appropriate output
+	    if (option.equals ("1"))
 	    {
-		pAskData = true;  //Ensures that user returns back to askData method
-		pauseProgram ();
+		//General Text
+		c.drawString ("Please enter values to find Acceleration!", 80, 200);
+		c.drawString ("Final Velocity:", 150, 250);
+		c.drawString ("Initial Velocity:", 150, 300);
+		c.drawString ("Time:", 150, 350);
+
+		//TryCatch and JOptionPane - Asks for input for values, and error-traps incorrect input for EACH specific input variable
+		try //Error Trap - final velocity
+		{
+		    vF = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Final Velocity..."));
+		    c.drawString (vF + " m/s", 400, 250);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Final Velocity.");
+		    askData ();
+		}
+
+		try //Error Trap - initial velocity
+		{
+		    vI = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Initial Velocity..."));
+		    c.drawString (vI + " m/s", 400, 300);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Initial Velocity.");
+		    askData ();
+		}
+
+		try //Error Trap - time
+		{
+		    t = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Time..."));
+		    c.drawString (t + " s", 400, 350);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Time.");
+		    askData ();
+		}
 	    }
-	    else
+	    else if (option.equals ("2"))
 	    {
-		//Needed to erase pause statement (can only use clear(); in title)
-		c.setColor (background);
-		c.drawString ("Would you like to PAUSE?", 180, 280);
-		c.setColor (Color.white);
+		//General Text
+		c.drawString ("Please enter values to find Final Velocity!", 80, 200);
+		c.drawString ("Initial Velocity:", 150, 250);
+		c.drawString ("Time:", 150, 300);
+		c.drawString ("Acceleration:", 150, 350);
 
-		//If Structure - Depending on user input for String var option, program will execute appropriate output
-		if (option.equals ("1"))
+		try //Error Trap - initial velocity
 		{
-		    //General Text
-		    c.drawString ("Please enter values to find Acceleration!", 80, 200);
-		    c.drawString ("Final Velocity:", 150, 250);
-		    c.drawString ("Initial Velocity:", 150, 300);
-		    c.drawString ("Time:", 150, 350);
-
-		    //TryCatch and JOptionPane - Asks for input for values, and error-traps incorrect input for EACH specific input variable
-		    try //Error Trap - final velocity
-		    {
-			vF = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Final Velocity..."));
-			c.drawString (vF + " m/s", 400, 250);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Final Velocity.");
-			askData ();
-		    }
-
-		    try //Error Trap - initial velocity
-		    {
-			vI = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Initial Velocity..."));
-			c.drawString (vI + " m/s", 400, 300);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Initial Velocity.");
-			askData ();
-		    }
-
-		    try //Error Trap - time
-		    {
-			t = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Time..."));
-			c.drawString (t + " s", 400, 350);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Time.");
-			askData ();
-		    }
+		    vI = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Initial Velocity..."));
+		    c.drawString (vI + " m/s", 400, 250);
 		}
-		else if (option.equals ("2"))
+		catch (Exception e)
 		{
-		    //General Text
-		    c.drawString ("Please enter values to find Final Velocity!", 80, 200);
-		    c.drawString ("Initial Velocity:", 150, 250);
-		    c.drawString ("Time:", 150, 300);
-		    c.drawString ("Acceleration:", 150, 350);
-
-		    try //Error Trap - initial velocity
-		    {
-			vI = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Initial Velocity..."));
-			c.drawString (vI + " m/s", 400, 250);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Initial Velocity.");
-			askData ();
-		    }
-
-		    try  //Error Trap - time
-		    {
-			t = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Time..."));
-			c.drawString (t + " s", 400, 300);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Time.");
-			askData ();
-		    }
-
-		    try  //Error Trap - acceleration
-		    {
-			a = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Acceleration..."));
-			c.drawString (a + " m/s^2", 400, 350);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for Acceleration.");
-			askData ();
-		    }
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Initial Velocity.");
+		    askData ();
 		}
-		else if (option.equals ("3"))
+
+		try  //Error Trap - time
 		{
-		    //General Text
-		    c.drawString ("Please enter values to find Initial Velocity!", 80, 200);
-		    c.drawString ("Final Velocity:", 150, 250);
-		    c.drawString ("Time:", 150, 300);
-		    c.drawString ("Acceleration:", 150, 350);
-
-		    try  //Error Trap - Final Velocity
-		    {
-			vF = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Final Velocity..."));
-			c.drawString (vF + " m/s", 400, 250);
-
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Final Velocity.");
-			askData ();
-		    }
-
-		    try  //Error Trap - time
-		    {
-			t = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Time..."));
-			c.drawString (t + " s", 400, 300);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Time.");
-			askData ();
-		    }
-
-		    try  //Error Trap - acceleration
-		    {
-			a = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Acceleration..."));
-			c.drawString (a + " m/s^2", 400, 350);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Acceleration.");
-			askData ();
-		    }
+		    t = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Time..."));
+		    c.drawString (t + " s", 400, 300);
 		}
-		else if (option.equals ("4"))
+		catch (Exception e)
 		{
-		    //General Text
-		    c.drawString ("Please enter values to find Time!", 80, 200);
-		    c.drawString ("Final Velocity:", 150, 250);
-		    c.drawString ("Initial Velocity:", 150, 300);
-		    c.drawString ("Acceleration:", 150, 350);
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Time.");
+		    askData ();
+		}
 
-		    try   //Error Trap - final velocity
-		    {
-			vF = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Final Velocity..."));
-			c.drawString (vF + " m/s", 400, 250);
+		try  //Error Trap - acceleration
+		{
+		    a = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Acceleration..."));
+		    c.drawString (a + " m/s^2", 400, 350);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for Acceleration.");
+		    askData ();
+		}
+	    }
+	    else if (option.equals ("3"))
+	    {
+		//General Text
+		c.drawString ("Please enter values to find Initial Velocity!", 80, 200);
+		c.drawString ("Final Velocity:", 150, 250);
+		c.drawString ("Time:", 150, 300);
+		c.drawString ("Acceleration:", 150, 350);
 
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Final Velocity.");
-			askData ();
-		    }
+		try  //Error Trap - Final Velocity
+		{
+		    vF = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Final Velocity..."));
+		    c.drawString (vF + " m/s", 400, 250);
 
-		    try   //Error Trap - initial velocity
-		    {
-			vI = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Initial Velocity..."));
-			c.drawString (vI + " m/s", 400, 300);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Initial Velocity.");
-			askData ();
-		    }
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Final Velocity.");
+		    askData ();
+		}
 
-		    try   //Error Trap - acceleration
-		    {
-			a = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Acceleration..."));
-			c.drawString (a + " m/s^2", 400, 350);
-		    }
-		    catch (Exception e)
-		    {
-			JOptionPane.showMessageDialog (null, "Please input the correct data type for the Acceleration.");
-			askData ();
-		    }
+		try  //Error Trap - time
+		{
+		    t = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Time..."));
+		    c.drawString (t + " s", 400, 300);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Time.");
+		    askData ();
+		}
+
+		try  //Error Trap - acceleration
+		{
+		    a = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Acceleration..."));
+		    c.drawString (a + " m/s^2", 400, 350);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Acceleration.");
+		    askData ();
+		}
+	    }
+	    else if (option.equals ("4"))
+	    {
+		//General Text
+		c.drawString ("Please enter values to find Time!", 80, 200);
+		c.drawString ("Final Velocity:", 150, 250);
+		c.drawString ("Initial Velocity:", 150, 300);
+		c.drawString ("Acceleration:", 150, 350);
+
+		try   //Error Trap - final velocity
+		{
+		    vF = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Final Velocity..."));
+		    c.drawString (vF + " m/s", 400, 250);
+
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Final Velocity.");
+		    askData ();
+		}
+
+		try   //Error Trap - initial velocity
+		{
+		    vI = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Initial Velocity..."));
+		    c.drawString (vI + " m/s", 400, 300);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Initial Velocity.");
+		    askData ();
+		}
+
+		try   //Error Trap - acceleration
+		{
+		    a = Double.parseDouble (JOptionPane.showInputDialog (null, "Please input a number for the Acceleration..."));
+		    c.drawString (a + " m/s^2", 400, 350);
+		}
+		catch (Exception e)
+		{
+		    JOptionPane.showMessageDialog (null, "Please input the correct data type for the Acceleration.");
+		    askData ();
 		}
 	    }
 	}
-	catch (Exception e)
-	{
-	    //Error Trap - If user closes or cancels input
-	    JOptionPane.showMessageDialog (null, "Invalid Input");
-	    askData ();
-	}
+
 
 	//JOptionPane - Waits for user to click OK btn to advance
 	JOptionPane.showMessageDialog (null, "Click OK to ADVANCE.");
@@ -373,101 +365,91 @@ public class JustinChhay_PhysicsFormulaSolver
 	c.setFont (text);
 	c.drawString ("Would you like to PAUSE?", 180, 280);
 
-	//Try Catch Loop - ErrorTrap for Pause Input
-	try
+	//JOptionPane - Asks if user wants to pause program
+	int pause = JOptionPane.showConfirmDialog (null, "Would you like to PAUSE the program?");
+
+	//If Structure - Will run pauseProgram(); or continue with display(); depending on previous user input
+	if (pause == JOptionPane.OK_OPTION)
 	{
-	    //JOptionPane - Asks if user wants to pause program
-	    String pause = JOptionPane.showInputDialog (null, "Would you like to PAUSE the program?\n  Enter  y  to PAUSE.\n  Enter ANY OTHER key to CONTINUE.");
-
-	    //If Structure - Will run pauseProgram(); or continue with display(); depending on previous user input
-	    if (pause.equals ("y") || pause.equals ("Y"))
-	    {
-		pDisplay = true; //Ensures that user returns back to display method
-		pauseProgram ();
-	    }
-	    else
-	    {
-		//Needed to erase pause statement (can only use clear(); in title)
-		c.setColor (background);
-		c.drawString ("Would you like to PAUSE?", 180, 280);
-		c.setColor (Color.white);
-
-		//If Structure - Depending on value of String var option, program will output appropriate answer and calculations
-		if (option.equals ("1")) //Finds Acceleration
-		{
-		    //Formula for Acceleration
-		    a = (vF - vI) / t;
-
-		    //General Text - Outputs given values from user input
-		    c.drawString ("With these values:", 40, 140);
-		    c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
-		    c.drawString ("Initial Velocity: " + vI + " m/s", 50, 210);
-		    c.drawString ("Time: " + t + " s", 50, 240);
-
-		    //Visual EQUATION of formula
-		    c.drawString ("Acceleration = (" + vF + " - " + vI + ")", 150, 300);
-		    c.drawLine (320, 310, 470, 310);
-		    c.drawString ("" + t, 375, 330);
-
-		    //Conclusion
-		    c.drawString ("Therefore, Acceleration must be " + a + " m/s^2.", 50, 420);
-		}
-		else if (option.equals ("2")) //Finds Final Velocity
-		{
-		    //Formula for Final Velocity
-		    vF = t * a + vI;
-
-		    //General Text - Outputs given values from user input
-		    c.drawString ("With these values:", 40, 140);
-		    c.drawString ("Initial Velocity: " + vI + " m/s", 50, 180);
-		    c.drawString ("Time: " + t + " s", 50, 210);
-		    c.drawString ("Acceleration: " + a + " m/s^2", 50, 240);
-
-		    //Visual EQUATION of formula
-		    c.drawString ("Final Velocity = " + t + " * " + a + " + " + vI, 150, 300);
-
-		    //Conclusion
-		    c.drawString ("Therefore, Final Velocity must be " + vF + " m/s.", 50, 420);
-		}
-		else if (option.equals ("3")) //Finds Initial Velocity
-		{
-		    //Formula for Initial Velocity
-		    vI = vF - t * a;
-		    c.drawString ("With these values:", 40, 140);
-		    c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
-		    c.drawString ("Time: " + t + " s", 50, 210);
-		    c.drawString ("Acceleration: " + a + " m/s^2", 50, 240);
-
-		    //Visual EQUATION of formula
-		    c.drawString ("Initial Velocity = " + vF + " - " + t + " * " + a, 80, 300);
-
-		    //Conclusion
-		    c.drawString ("Therefore, Initial Velocity must be " + vI + " m/s^2.", 50, 420);
-		}
-		else if (option.equals ("4")) //Finds Time
-		{
-		    //Formula for Time
-		    t = (vF - vI) / a;
-		    c.drawString ("With these values:", 40, 140);
-		    c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
-		    c.drawString ("Initial Velocity: " + vI + " m/s", 50, 210);
-		    c.drawString ("Acceleration: " + a + " m/s^2", 50, 240);
-
-		    //Visual EQUATION of formula
-		    c.drawString ("Time = (" + vF + " - " + vI + ")", 80, 300);
-		    c.drawLine (160, 310, 300, 310);
-		    c.drawString ("" + a, 215, 330);
-
-		    //Conclusion
-		    c.drawString ("Therefore, Time must be " + t + " s.", 50, 420);
-		}
-	    }
+	    pDisplay = true; //Ensures that user returns back to display method
+	    pauseProgram ();
 	}
-	catch (Exception e)
+	else if (pause == JOptionPane.NO_OPTION || pause == JOptionPane.CANCEL_OPTION || pause == JOptionPane.CLOSED_OPTION)
 	{
-	    //Error Trap - If user closes or cancels input
-	    JOptionPane.showMessageDialog (null, "Invalid Input");
-	    display ();
+	    //Needed to erase pause statement (can only use clear(); in title)
+	    c.setColor (background);
+	    c.drawString ("Would you like to PAUSE?", 180, 280);
+	    c.setColor (Color.white);
+
+	    //If Structure - Depending on value of String var option, program will output appropriate answer and calculations
+	    if (option.equals ("1")) //Finds Acceleration
+	    {
+		//Formula for Acceleration
+		a = (vF - vI) / t;
+
+		//General Text - Outputs given values from user input
+		c.drawString ("With these values:", 40, 140);
+		c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
+		c.drawString ("Initial Velocity: " + vI + " m/s", 50, 210);
+		c.drawString ("Time: " + t + " s", 50, 240);
+
+		//Visual EQUATION of formula
+		c.drawString ("Acceleration = (" + vF + " - " + vI + ")", 150, 300);
+		c.drawLine (320, 310, 470, 310);
+		c.drawString ("" + t, 375, 330);
+
+		//Conclusion
+		c.drawString ("Therefore, Acceleration must be " + a + " m/s^2.", 50, 420);
+	    }
+	    else if (option.equals ("2")) //Finds Final Velocity
+	    {
+		//Formula for Final Velocity
+		vF = t * a + vI;
+
+		//General Text - Outputs given values from user input
+		c.drawString ("With these values:", 40, 140);
+		c.drawString ("Initial Velocity: " + vI + " m/s", 50, 180);
+		c.drawString ("Time: " + t + " s", 50, 210);
+		c.drawString ("Acceleration: " + a + " m/s^2", 50, 240);
+
+		//Visual EQUATION of formula
+		c.drawString ("Final Velocity = " + t + " * " + a + " + " + vI, 150, 300);
+
+		//Conclusion
+		c.drawString ("Therefore, Final Velocity must be " + vF + " m/s.", 50, 420);
+	    }
+	    else if (option.equals ("3")) //Finds Initial Velocity
+	    {
+		//Formula for Initial Velocity
+		vI = vF - t * a;
+		c.drawString ("With these values:", 40, 140);
+		c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
+		c.drawString ("Time: " + t + " s", 50, 210);
+		c.drawString ("Acceleration: " + a + " m/s^2", 50, 240);
+
+		//Visual EQUATION of formula
+		c.drawString ("Initial Velocity = " + vF + " - " + t + " * " + a, 80, 300);
+
+		//Conclusion
+		c.drawString ("Therefore, Initial Velocity must be " + vI + " m/s^2.", 50, 420);
+	    }
+	    else if (option.equals ("4")) //Finds Time
+	    {
+		//Formula for Time
+		t = (vF - vI) / a;
+		c.drawString ("With these values:", 40, 140);
+		c.drawString ("Final Velocity: " + vF + " m/s", 50, 180);
+		c.drawString ("Initial Velocity: " + vI + " m/s", 50, 210);
+		c.drawString ("Acceleration: " + a + " m/s^2", 50, 240);
+
+		//Visual EQUATION of formula
+		c.drawString ("Time = (" + vF + " - " + vI + ")", 80, 300);
+		c.drawLine (160, 310, 300, 310);
+		c.drawString ("" + a, 215, 330);
+
+		//Conclusion
+		c.drawString ("Therefore, Time must be " + t + " s.", 50, 420);
+	    }
 	}
 
 	//Needed so that the program allows user to stop and view output
